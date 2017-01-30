@@ -1,1 +1,3 @@
-[Write a brief explanation about how your code works here!]
+## 振り返り
+先に中級問題をやってしまったため、特に問題なくできた。  
+`async/await`の復習も兼ねて、わかりやすさ重視で解いた。
