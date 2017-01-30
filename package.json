@@ -1,18 +1,23 @@
 {
-  "name" : "challenge-asahi-api",
-  "version" : "1.0.0",
-  "description" : "codecheck challenge",
-  "scripts" : {
-    "test" : "mocha"
+  "name": "challenge-asahi-api",
+  "version": "1.0.0",
+  "description": "codecheck challenge",
+  "scripts": {
+    "test": "codecheck",
+    "build": "tsc -p .",
+    "check": "node index 五郎丸歩 ドローン 松岡修造",
+    "build-and-check": "npm run build && npm run check"
+    
   },
-  "author" : "Givery",
-  "dependencies" : {
-    "minimist" : "^1.2.0",
-    "request" : "^2.75.0",
-    "request-promise" : "^4.1.1"
+  "author": "Givery",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1"
   },
-  "devDependencies" : {
-    "chai" : "^3.5.0",
-    "codecheck" : "^0.5.6"
+  "devDependencies": {
+    "@types/request": "0.0.39",
+    "chai": "^3.5.0",
+    "codecheck": "^0.5.6"
   }
 }
