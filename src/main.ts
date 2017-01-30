@@ -2,6 +2,15 @@ import * as request from 'request'
 
 const ackey = '869388c0968ae503614699f99e09d960f9ad3e12'
 
+interface Param {
+    q?: string
+    sort?: string
+    start?: number
+    rows?: number
+    wt?: 'xml' | 'json'
+    ackey?: string
+}
+
 interface ResponseData {
     status: 'ok' | 'ng'
     code: string
@@ -15,7 +24,7 @@ interface ResponseData {
 async function main(argv: string[]) {
     // それぞれのキーワードで検索
     const responses = await Promise.all(argv.map(keyword =>
-        getArchives(keyword, ackey)
+        getArchives(keyword, { rows: 1, wt: 'json', ackey })
     ))
 
     // キーワードと記事数を取得
@@ -31,11 +40,12 @@ async function main(argv: string[]) {
     console.log(JSON.stringify(popular))
 }
 
-function getArchives(keyword: string, ackey: string) {
-    const url = `http://54.92.123.84/search?q=${encodeURIComponent(`Body:${keyword}`)}&wt=json&ackey=${ackey}`
+function getArchives(keyword: string, param: Param) {
+    const paramArray = Object.keys(param).map(key => `${key}=${param[key]}`)
+    const url = `http://54.92.123.84/search?q=${encodeURIComponent(`Body:${keyword}`)}&${paramArray.join('&')}`
 
     return new Promise<ResponseData>(done => {
-        request.get({ url, json: true, }, (error, response, body) => { done(body.response) })
+        request.get({ url, json: param.wt === 'json' }, (error, response, body) => { done(body.response) })
     })
 }
 

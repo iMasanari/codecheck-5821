@@ -42,7 +42,7 @@ function main(argv) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, Promise.all(argv.map(function (keyword) {
-                        return getArchives(keyword, ackey);
+                        return getArchives(keyword, { rows: 1, wt: 'json', ackey: ackey });
                     }))];
                 case 1:
                     responses = _a.sent();
@@ -58,10 +58,11 @@ function main(argv) {
         });
     });
 }
-function getArchives(keyword, ackey) {
-    var url = "http://54.92.123.84/search?q=" + encodeURIComponent("Body:" + keyword) + "&wt=json&ackey=" + ackey;
+function getArchives(keyword, param) {
+    var paramArray = Object.keys(param).map(function (key) { return key + "=" + param[key]; });
+    var url = "http://54.92.123.84/search?q=" + encodeURIComponent("Body:" + keyword) + "&" + paramArray.join('&');
     return new Promise(function (done) {
-        request.get({ url: url, json: true, }, function (error, response, body) { done(body.response); });
+        request.get({ url: url, json: param.wt === 'json' }, function (error, response, body) { done(body.response); });
     });
 }
 module.exports = main;
